@@ -170,6 +170,8 @@ nav a:hover::after {
 /* --- General Section Styling --- */
 section {
   padding: 80px 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 section p,
@@ -211,36 +213,39 @@ h2::after {
 }
 
 /* --- Skills Section --- */
-#skills{
+#skill {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
 }
+
 .skills-table {
-  align-items: center;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  max-width: 850px;
   margin-top: 20px;
 }
 
-.skills table {
+/* Table Styles */
+.skills-table table {
   width: 100%;
-  max-width: 850px;
   border-collapse: collapse;
   background-color: white;
   color: #333;
   margin-top: 1em;
 }
 
-.skills th,
-.skills td {
+.skills-table th,
+.skills-table td {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: left;
+  font-size: 1rem;
+  word-wrap: break-word;
 }
 
-.skills th {
+.skills-table th {
   background-color: #f5f5f5;
   font-weight: bold;
 }
@@ -724,5 +729,45 @@ footer img:hover {
   }
   footer img {
     height: 30px;
+  }
+}
+
+/* --- Media Queries for Tablets --- */
+@media (max-width: 768px) {
+  #skills {
+    padding: 1rem;
+  }
+
+  .skills-table {
+    max-width: 100%; /* Allow table to shrink to container width */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+  }
+
+  .skills table {
+    min-width: 0; /* Prevent table from forcing a minimum width */
+  }
+
+  .skills th,
+  .skills td {
+    padding: 8px; /* Reduce padding */
+    font-size: 0.9rem; /* Slightly smaller font */
+  }
+}
+
+/* --- Media Queries for Small Mobile Devices --- */
+@media (max-width: 480px) {
+  #skills {
+    padding: 0.5rem;
+  }
+
+  .skills th,
+  .skills td {
+    padding: 6px; /* Further reduce padding */
+    font-size: 0.8rem; /* Smaller font for mobile */
+    line-height: 1.4; /* Adjust line height for readability */
+  }
+
+  .skills table {
+    font-size: 0.8rem; /* Ensure table text scales down */
   }
 }
