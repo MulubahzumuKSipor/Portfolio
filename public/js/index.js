@@ -58,9 +58,16 @@ async function fetchProjects() {
                 <div class="project-content">
                     <h3>${project.title}</h3>
                     <p>${project.shortDescription}</p>
-                    <button onclick="event.stopPropagation(); openModal('${project.modalId}')">
-                        Learn More
-                    </button>
+                    <div class="project-button">
+                      <button onclick="event.stopPropagation(); openModal('${project.modalId}')">
+                          Learn More
+                      </button>
+                      <a href="${project.url}" target="_blank">
+                        <button class="link">
+                            Visit Page
+                        </button>
+                      </a>
+                    </div>
                 </div>
             `;
       projectsContainer.appendChild(projectCard);

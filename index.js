@@ -3,11 +3,13 @@ const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const pool = require("./database/database");
 const session = require("express-session");
+const flash = require("connect-flash");
 // const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const env = require("dotenv").config();
 const static = require("./routes/static");
 const homeController = require("./controllers/homeController");
+const connectController = require("./controllers/hireMeController")
 
 const app = express();
 
@@ -17,19 +19,17 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "layout/layouts");
-
-// app.use(express.json());
-// app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, "public")));
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 /* Flash Messages */
-// app.use(flash());
+app.use(session({
+  secret: 'your-secret-key', // Use a strong, random key in production
+  resave: false,
+  saveUninitialized: true
+}));
 
-// app.use((req, res, next) => {
-//   res.locals.message = req.flash("message");
-//   next();
-// });
+app.use(flash());
+
 
 /* **************************************
  * Routes
@@ -39,6 +39,8 @@ app.get("/", homeController.buildHome);
 app.get("/skills", homeController.getAllSkills);
 app.get("/projects", homeController.getAllProjects);
 app.get("/certificates", homeController.getAllCertificates);
+app.get("/connect", connectController.buildConnect);
+app.post("/connected", connectController.createUser);
 /* ****************************************
  * Local Server Information
  **************************************** */
