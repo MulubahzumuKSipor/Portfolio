@@ -10,6 +10,8 @@ const env = require("dotenv").config();
 const static = require("./routes/static");
 const homeController = require("./controllers/homeController");
 const connectController = require("./controllers/hireMeController")
+const MongoStore = require("connect-mongo")
+const dotenv = require("dotenv").config();
 
 const app = express();
 
@@ -23,9 +25,17 @@ app.use(express.urlencoded({ extended: true }));
 
 /* Flash Messages */
 app.use(session({
-  secret: 'your-secret-key', // Use a strong, random key in production
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URL, // e.g., 'mongodb://localhost:27017/yourDB'
+    ttl: 14 * 24 * 60 * 60 // 14 days
+  }),
+  cookie: {
+    secure: false, // set to true in production with HTTPS
+    httpOnly: true
+  }
 }));
 
 app.use(flash());
