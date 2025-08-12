@@ -12,6 +12,8 @@ const homeController = require("./controllers/homeController");
 const connectController = require("./controllers/hireMeController")
 const MongoStore = require("connect-mongo")
 const dotenv = require("dotenv").config();
+const homeRoutes = require("./routes/homeRoute")
+const connectRoutes = require("./routes/connectRoute")
 
 const app = express();
 
@@ -29,8 +31,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URL, // e.g., 'mongodb://localhost:27017/yourDB'
-    ttl: 14 * 24 * 60 * 60 // 14 days
+    mongoUrl: process.env.MONGODB_URL, 
+    ttl: 14 * 24 * 60 * 60 
   }),
   cookie: {
     secure: false, // set to true in production with HTTPS
@@ -45,12 +47,9 @@ app.use(flash());
  * Routes
  ************************************** */
 app.use(static);
-app.get("/", homeController.buildHome);
-app.get("/skills", homeController.getAllSkills);
-app.get("/projects", homeController.getAllProjects);
-app.get("/certificates", homeController.getAllCertificates);
-app.get("/connect", connectController.buildConnect);
-app.post("/connected", connectController.createUser);
+app.use(homeRoutes);
+app.use(connectRoutes);
+
 /* ****************************************
  * Local Server Information
  **************************************** */

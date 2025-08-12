@@ -6,6 +6,11 @@ const utilities = require("../utilities/index");
 
 router.get("/connect", connectController.buildConnect);
 
+router.get("/admin", connectController.getUser);
 
+router.post("/connected", connectController.createUser);
+
+
+// connectController.authorized,
 
 module.exports = router;

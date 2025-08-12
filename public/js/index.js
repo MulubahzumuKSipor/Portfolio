@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", fetchProjects);
 
 async function fetchSkills() {
   const url = "/skills";
-  const skillsContainer = document.getElementById("skills"); 
+  const skillsContainer = document.getElementById("skills-container"); 
 
   
   if (skillsContainer) {
@@ -181,28 +181,27 @@ async function fetchSkills() {
         const row = document.createElement("tr");
 
         const categoryCell = document.createElement("td");
-        categoryCell.textContent = skill.category || "N/A"; // Use 'N/A' if category is missing
+        categoryCell.textContent = skill.category || "N/A"; 
         row.appendChild(categoryCell);
 
         const skillsCell = document.createElement("td");
-        skillsCell.textContent = skill.skills || "N/A"; // Use 'N/A' if skills is missing
+        skillsCell.textContent = skill.skills || "N/A"; 
         row.appendChild(skillsCell);
 
-        tableBody.appendChild(row); // Append the row to tableBody
+        tableBody.appendChild(row); 
       });
     } else {
       // Handle case where no skills are returned or skills is empty/not an array
       const row = document.createElement("tr");
       const cell = document.createElement("td");
-      cell.colSpan = 2; // Span across both columns
+      cell.colSpan = 2; 
       cell.textContent = "No skills available to display.";
       row.appendChild(cell);
-      tableBody.appendChild(row); // Append the row to tableBody
+      tableBody.appendChild(row); 
     }
 
-    tableElement.appendChild(tableBody); // Append tbody to the tableElement
+    tableElement.appendChild(tableBody); 
 
-    // Finally, append the complete table to the container in the HTML
     skillsContainer.appendChild(tableElement);
   } catch (error) {
     console.error("Failed to fetch skills:", error);
@@ -250,3 +249,12 @@ async function fetchAndDisplayCertificates() {
 }
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayCertificates);
+
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 50) {
+    header.classList.add('glass-header');
+  } else {
+    header.classList.remove('glass-header');
+  }
+});

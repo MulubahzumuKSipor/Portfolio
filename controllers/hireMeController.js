@@ -19,6 +19,25 @@ connectCont.buildConnect = async function (req, res) {
     });
 };
 
+connectCont.getUser = async (req, res) => {
+    try {
+        const connect = await mongodb
+            .getDb()
+            .collection("connect")
+            .find()
+            .toArray();
+
+        res.render("users", {
+            title: "Interested Users",
+            collaborators: connect
+        });
+    } catch (err) {
+        console.error("Error fetching users (CATCH BLOCK):", err); 
+        res.status(500).send("Error fetching users");
+    }
+};
+
+
 connectCont.createUser = async (req, res) => {
   const user = {
     firstName: req.body.name,

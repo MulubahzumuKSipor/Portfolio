@@ -18,6 +18,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   padding: 15px 5%;
   background-color: #1a1a1a;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
@@ -27,6 +28,24 @@ header {
   width: 100%;
   z-index: 1000;
 }
+
+/* Glass effect for header */
+header.glass-header {
+  background-color: rgba(26, 26, 26, 0.5); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+header.glass-header:hover {
+  background-color: #1a1a1a !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  cursor: default;
+}
+
 
 #logo {
   height: 40px;
@@ -212,6 +231,36 @@ h2::after {
   border-radius: 2px;
 }
 
+#resume {
+  display: flex;
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+#resume:hover {
+  background-color: #0056b3; 
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.link{
+  color: #00aaff;
+  text-decoration: none;
+}
+
+.link:hover{
+  text-decoration: double underline;
+}
 /* --- Skills Section --- */
 #skill {
   display: flex;
@@ -770,4 +819,40 @@ footer img:hover {
   .skills table {
     font-size: 0.8rem; /* Ensure table text scales down */
   }
+}
+
+/* Admin */
+
+/* Table styling */
+.table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    margin: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Table head */
+.thead .th {
+    background-color: #388e3c; /* Dark green */
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Table body */
+.tbody .td {
+    border: 1px solid #c8e6c9;
+    padding: 12px;
+}
+
+/* Row hover effect */
+.tr:hover {
+    background-color: #dcedc8; /* Light green hover */
+}
+
+/* Alternate row colors */
+.tbody .tr:nth-child(even) {
+    background-color: #f1f8f1; /* Soft greenish-white */
 }
