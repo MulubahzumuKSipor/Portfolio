@@ -5,7 +5,7 @@
 
 ## 👋 Welcome
 
-As a full-stack developer, I'm dedicated to crafting interactive, accessible, and responsive web applications. My robust foundation in HTML, CSS, JavaScript, Node.js, Express, and MongoDB, continually strengthened through ongoing education, empowers me to transform innovative ideas into functional digital solutions.
+As a full-stack developer, I'm dedicated to crafting interactive, accessible, and responsive web applications. My robust foundation in HTML, CSS, JavaScript, REACT, Node.js, Express, and MongoDB, continually strengthened through ongoing education, empowers me to transform innovative ideas into functional digital solutions.
 
 I excel in creating meaningful user experiences, with a particular focus on UI/UX design, adherence to accessibility standards, and optimizing site performance. Through practical experience on real-world projects and my current studies, I consistently seek new challenges to advance my skills and contribute effectively to development initiatives.
 
