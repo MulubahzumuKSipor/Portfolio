@@ -1,12 +1,11 @@
 'use client';
 
-import {MongoId, Project, SkillGroup, Certificate, PortfolioData}  from '@/type/portfolio';
-import Image from 'next/image'
-import React, { useState, useEffect, useCallback } from 'react';
-import { Menu, X, Github, Linkedin, Mail, ExternalLink, User, Loader2, Award, Code2, Moon, Sun } from 'lucide-react';
+import { MongoId, Project, SkillGroup, Certificate, PortfolioData } from '@/type/portfolio';
+import Image from 'next/image';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Menu, X, Github, Linkedin, Mail, ExternalLink, Award, Loader2, Moon, Sun } from 'lucide-react';
 import styles from './styles/Portfolio.module.css';
-
-
+import SkillCard from './skillsCard';
 
 const Portfolio: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,8 +17,18 @@ const Portfolio: React.FC = () => {
     skills: [],
     certificates: [],
   });
+  const [activeSkillCard, setActiveSkillCard] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Fetch data from API
   useEffect(() => {
@@ -38,52 +47,99 @@ const Portfolio: React.FC = () => {
     fetchData();
   }, []);
 
-  // Load theme preference from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
-    }
-  }, []);
-
-  // Apply theme to document
+  // Apply theme - REMOVED localStorage to comply with artifact restrictions
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
-  // Scroll handling
+  // Optimized scroll handling with debounce
   useEffect(() => {
     const handleScroll = () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
       setScrolled(window.scrollY > 50);
 
-      const sections = ['home', 'about', 'skills', 'projects', 'certificates', 'contact'];
-      const current = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
-      });
+      scrollTimeoutRef.current = setTimeout(() => {
+        const sections = ['home', 'about', 'skills', 'projects', 'certificates', 'contact'];
+        const current = sections.find((section) => {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            return rect.top <= 100 && rect.bottom >= 100;
+          }
+          return false;
+        });
 
-      if (current) setActiveSection(current);
+        if (current) setActiveSection(current);
+      }, 100);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, []);
 
   const scrollToSection = useCallback((id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    try {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        console.warn(`Section with id "${id}" not found`);
+      }
+    } catch (err) {
+      console.error('Error scrolling to section:', err);
     }
     setIsMenuOpen(false);
   }, []);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
+  };
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = async () => {
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 3000);
+      return;
+    }
+
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      setFormStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+
+      setTimeout(() => setFormStatus('idle'), 3000);
+    } catch (err) {
+      setFormStatus('error');
+      console.error('Error sending message:', err);
+
+      setTimeout(() => setFormStatus('idle'), 3000);
+    }
   };
 
   if (loading) {
@@ -109,12 +165,16 @@ const Portfolio: React.FC = () => {
   return (
     <div className={styles.portfolio}>
       {/* Navigation */}
-      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
+      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} role="navigation" aria-label="Main navigation">
         <div className={styles.navContainer}>
-          <button onClick={() => scrollToSection('home')} className={styles.logo}>
+          <button
+            onClick={() => scrollToSection('home')}
+            className={styles.logo}
+            aria-label="Go to home section"
+          >
             <Image
               src={isDarkMode ? "/logo-white.png" : "/logo-black.png"}
-              alt="Logo"
+              alt="Mulubahzumu Sipor logo"
               width={40}
               height={40}
             />
@@ -127,8 +187,9 @@ const Portfolio: React.FC = () => {
                 key={section}
                 onClick={() => scrollToSection(section)}
                 className={`${styles.navLink} ${activeSection === section ? styles.navLinkActive : ''}`}
+                aria-current={activeSection === section ? 'page' : undefined}
               >
-                {section}
+                {section.charAt(0).toUpperCase() + section.slice(1)}
               </button>
             ))}
           </div>
@@ -137,22 +198,32 @@ const Portfolio: React.FC = () => {
             <button
               onClick={toggleTheme}
               className={styles.themeToggle}
-              aria-label="Toggle theme"
+              aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
             >
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
 
-            <button className={styles.menuToggle} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <button
+              className={styles.menuToggle}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMenuOpen}
+            >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
         {isMenuOpen && (
-          <div className={styles.mobileMenu}>
+          <div className={styles.mobileMenu} role="menu">
             {['home', 'about', 'skills', 'projects', 'certificates', 'contact'].map((section) => (
-              <button key={section} onClick={() => scrollToSection(section)} className={styles.mobileMenuItem}>
-                {section}
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={styles.mobileMenuItem}
+                role="menuitem"
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
               </button>
             ))}
           </div>
@@ -161,10 +232,9 @@ const Portfolio: React.FC = () => {
 
       {/* Hero Section */}
       <section id="home" className={styles.hero}>
-        <div className={styles.heroBackground} />
+        <div className={styles.heroBackground} aria-hidden="true" />
 
         <div className={styles.heroContainer}>
-          {/* Text Column */}
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>
               Mulubahzumu K. <span className={styles.heroTitleGradient}>Sipor</span>
@@ -180,29 +250,43 @@ const Portfolio: React.FC = () => {
                 View My Work
               </button>
               <div className={styles.heroSocials}>
-                <a href="https://github.com/MulubahzumuKSipor" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                <a
+                  href="https://github.com/MulubahzumuKSipor"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.socialLink}
+                  aria-label="Visit GitHub profile"
+                >
                   <Github size={20} />
                 </a>
-                <a href="https://www.linkedin.com/in/mulubahzumu-kemmeh-sipor-526a74197/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                <a
+                  href="https://www.linkedin.com/in/mulubahzumu-kemmeh-sipor-526a74197/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.socialLink}
+                  aria-label="Visit LinkedIn profile"
+                >
                   <Linkedin size={20} />
                 </a>
-                <a href="mailto:msipor@byupathway.edu" className={styles.socialLink}>
+                <a
+                  href="mailto:msipor@byupathway.edu"
+                  className={styles.socialLink}
+                  aria-label="Send email"
+                >
                   <Mail size={20} />
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Image Column */}
           <div className={styles.heroImageWrapper}>
-            {/* <div className={styles.heroAvatar}> */}
-              <Image
-                src="/profilePic.png"
-                alt="Profile"
-                width={400}
-                height={400}
-              />
-            {/* </div> */}
+            <Image
+              src="/profilePic.png"
+              alt="Portrait of Mulubahzumu Sipor"
+              width={400}
+              height={400}
+              priority
+            />
           </div>
         </div>
       </section>
@@ -212,19 +296,21 @@ const Portfolio: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>About Me</h2>
-            <div className={styles.sectionDivider} />
+            <div className={styles.sectionDivider} aria-hidden="true" />
           </div>
           <div className={styles.aboutContent}>
             <p className={styles.aboutText}>
-              I’m a <strong>Full-Stack Developer and Web Enthusiast</strong> specializing in the <strong>MERN stack</strong>. I build <strong>fast, scalable, and user-centered web applications</strong> with clean UI, accessible design, and optimal performance. I also have strong front-end expertise in <strong>HTML, CSS, and JavaScript</strong>, focusing on performance, clean architecture, and real-world usability.
+              I&quot;m a <strong>Full-Stack Developer and Web Enthusiast</strong> specializing in the <strong>MERN stack</strong>. I build <strong>fast, scalable, and user-centered web applications</strong> with clean UI, accessible design, and optimal performance. I also have strong front-end expertise in <strong>HTML, CSS, and JavaScript</strong>, focusing on performance, clean architecture, and real-world usability.
             </p>
             <p className={styles.aboutText}>
-              I’ve developed <strong>production-level projects from scratch</strong>, including e-commerce marketplaces and dynamic web apps, consistently achieving <strong>90%+ Lighthouse scores</strong> for performance, SEO, and accessibility. I think beyond code—balancing design, user experience, and business impact. <br /><br />
+              I&quot;ve developed <strong>production-level projects from scratch</strong>, including e-commerce marketplaces and dynamic web apps, consistently achieving <strong>90%+ Lighthouse scores</strong> for performance, SEO, and accessibility. I think beyond code—balancing design, user experience, and business impact. <br /><br />
               I thrive on solving complex problems, working independently or in teams, and building interfaces that are both <strong>scalable, intuitive, and visually elegant</strong>, delivering real-world impact.
             </p>
           </div>
           <div className={styles.aboutActions}>
-            <button className={styles.button} >Download CV</button>
+            <button className={styles.button} aria-label="Download CV as PDF">
+              Download CV
+            </button>
           </div>
         </div>
       </section>
@@ -234,20 +320,18 @@ const Portfolio: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.skillTitle}>Technical Skills</h2>
-            <div className={styles.sectionDivider} />
+            <div className={styles.sectionDivider} aria-hidden="true" />
           </div>
           <div className={styles.skillsGrid}>
             {data.skills.map((group) => (
-              <div key={group._id} className={styles.skillCard}>
-                <h3 className={styles.skillCategory}>{group.category}</h3>
-                <div className={styles.skillTags}>
-                  {group.skills.map((skill) => (
-                    <span key={skill} className={styles.skillTag}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <SkillCard
+                key={group._id}
+                id={group._id}
+                category={group.category}
+                skills={group.skills}
+                activeId={activeSkillCard}
+                setActiveId={setActiveSkillCard}
+              />
             ))}
           </div>
         </div>
@@ -258,20 +342,27 @@ const Portfolio: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Featured Projects</h2>
-            <div className={styles.sectionDivider} />
+            <div className={styles.sectionDivider} aria-hidden="true" />
             <p className={styles.sectionSubtitle}>{data.projects.length} projects and counting</p>
           </div>
           <div className={styles.projectsGrid}>
             {data.projects.map((project) => (
               <article key={project._id} className={styles.projectCard}>
                 <div className={styles.projectImage}>
-                  <Image src={project.imageCard} alt={project.altCard} width={200} height={200} />
+                  <Image
+                    src={project.imageCard}
+                    alt={project.altCard}
+                    width={200}
+                    height={200}
+                    loading="lazy"
+                  />
                   <div className={styles.projectOverlay}>
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.projectLink}
+                      aria-label={`View ${project.title} project`}
                     >
                       <ExternalLink size={20} />
                       <span>View Project</span>
@@ -303,12 +394,12 @@ const Portfolio: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.skillTitle}>Certifications</h2>
-            <div className={styles.sectionDivider} />
+            <div className={styles.sectionDivider} aria-hidden="true" />
           </div>
           <div className={styles.certificatesGrid}>
             {data.certificates.map((cert) => (
               <div key={cert._id} className={styles.certificateCard}>
-                <div className={styles.certificateIcon}>
+                <div className={styles.certificateIcon} aria-hidden="true">
                   <Award size={24} />
                 </div>
                 <div className={styles.certificateContent}>
@@ -326,26 +417,68 @@ const Portfolio: React.FC = () => {
         <div className={styles.containerSmall}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Get In Touch</h2>
-            <div className={styles.sectionDivider} />
+            <div className={styles.sectionDivider} aria-hidden="true" />
             <p className={styles.sectionSubtitle}>{"Let's discuss your next project"}</p>
           </div>
-          <form className={styles.contactForm} onSubmit={(e) => e.preventDefault()}>
+          <div className={styles.contactForm}>
             <div className={styles.formRow}>
-              <input type="text" placeholder="Your Name" className={styles.formInput} required />
-              <input type="email" placeholder="Email Address" className={styles.formInput} required />
+              <input
+                name="name"
+                type="text"
+                placeholder="Your Name"
+                className={styles.formInput}
+                value={formData.name}
+                onChange={handleFormChange}
+                aria-label="Your name"
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email Address"
+                className={styles.formInput}
+                value={formData.email}
+                onChange={handleFormChange}
+                aria-label="Your email address"
+              />
             </div>
-            <input type="text" placeholder="Subject" className={styles.formInput} required />
-            <textarea rows={6} placeholder="Your Message" className={styles.formTextarea} required />
-            <button type="submit" className={styles.formButton}>
-              Send Message
+            <input
+              name="subject"
+              type="text"
+              placeholder="Subject"
+              className={styles.formInput}
+              value={formData.subject}
+              onChange={handleFormChange}
+              aria-label="Message subject"
+            />
+            <textarea
+              name="message"
+              rows={6}
+              placeholder="Your Message"
+              className={styles.formTextarea}
+              value={formData.message}
+              onChange={handleFormChange}
+              aria-label="Your message"
+            />
+            <button
+              onClick={handleFormSubmit}
+              className={styles.formButton}
+              disabled={formStatus === 'sending'}
+            >
+              {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
             </button>
-          </form>
+            {formStatus === 'success' && (
+              <p className={styles.formSuccess} role="status">Message sent successfully!</p>
+            )}
+            {formStatus === 'error' && (
+              <p className={styles.formError} role="alert">Failed to send message. Please try again.</p>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className={styles.footer}>
-        <p>&copy; {new Date().getFullYear()} Mulubahzumu Kemmeh Sipor. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Mulubahzumu Sipor. All rights reserved.</p>
       </footer>
     </div>
   );
