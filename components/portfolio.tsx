@@ -345,7 +345,7 @@ const Portfolio: React.FC = () => {
 
       {/* Footer */}
       <footer className={styles.footer}>
-        <p>&copy; {new Date().getFullYear()} Professional Portfolio. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Mulubahzumu Kemmeh Sipor. All rights reserved.</p>
       </footer>
     </div>
   );
