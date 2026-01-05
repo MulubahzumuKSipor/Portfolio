@@ -1,0 +1,88 @@
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+/* Global reset & custom styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Global Theme Variables - Default to Dark Mode */
+:root {
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #ffffff;
+  --color-text-primary: #ffffff;
+  --color-text-primary2: #000000;
+  --color-text-secondary: #999999;
+  --color-text-tertiary: #666666;
+  --color-text-light: #626262;
+  --color-text-light-secondary: #161616;
+  --color-text-dark: #ffffff;
+  --color-text: #212121;
+  --color-border: #2d2d2d;
+  --color-border-dark: #333333;
+  --color-card-bg: #0a0a0a;
+  --color-card-bg-alt: #ffffff;
+  --color-input-bg: #0a0a0a;
+  --color-hover-bg: #1a1a1a;
+  --nav-bg: rgba(0, 0, 0, 0.95);
+  --nav-bg-scrolled: rgba(0, 0, 0, 0.98);
+}
+
+[data-theme="dark"] {
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #ffffff;
+  --color-text-primary: #ffffff;
+  --color-text-primary2: #000000;
+  --color-text-secondary: #999999;
+  --color-text-tertiary: #666666;
+  --color-text-light: #dbdada;
+  --color-text-light-secondary: #161616;
+  --color-text-dark: #2d2d2d;
+  --color-border: #1a1a1a;
+  --color-border-dark: #333333;
+  --color-card-bg: #0a0a0a;
+  --color-card-bg-alt: #ffffff;
+  --color-input-bg: #0a0a0a;
+  --color-hover-bg: #1a1a1a;
+  --nav-bg: rgba(0, 0, 0, 0.95);
+  --nav-bg-scrolled: rgba(0, 0, 0, 0.98);
+}
+
+[data-theme="light"] {
+
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #000000;
+  --color-text-primary2: #ffffff;
+  --color-text-primary: #000000;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #999999;
+  --color-text-light: #626262;
+  --color-text-light-secondary: #cccccc;
+  --color-border: #e5e5e5;
+  --color-border-dark: #cccccc;
+  --color-card-bg: #ffffff;
+  --color-card-bg-alt: #f5f5f5;
+  --color-input-bg: #ffffff;
+  --color-hover-bg: #f5f5f5;
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-bg-scrolled: rgba(255, 255, 255, 0.98);
+}
+
+/* Project Overlay Theme-Specific Styles */
+[data-theme="dark"] .projectOverlay {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+[data-theme="light"] .projectOverlay {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
