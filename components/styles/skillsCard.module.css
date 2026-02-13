@@ -1,0 +1,161 @@
+/* ================================
+   CARD WRAPPER
+================================ */
+
+.card {
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+/* ================================
+   CARD INNER (3D CONTEXT)
+================================ */
+
+.inner {
+  position: relative;
+  width: 100%;
+  height: 200px;
+
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Flip state */
+.flipped .inner {
+  transform: rotateY(180deg);
+}
+
+/* ================================
+   CARD SIDES (FRONT & BACK)
+================================ */
+
+.front,
+.back {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 16px;
+  padding: 1.5rem;
+
+  backface-visibility: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--color-card-bg);
+  color: var(--color-text-primary);
+
+  /* Card border */
+  border: 1px solid var(--color-border);
+
+  /* Depth */
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+/* ================================
+   FRONT SIDE
+================================ */
+
+.front {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.hint {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* ================================
+   BACK SIDE
+================================ */
+
+.back {
+  transform: rotateY(180deg);
+  background: var(--color-card-bg-alt);
+  color: var(--color-text-primary2);
+}
+
+/* ================================
+   SKILL TAGS
+================================ */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+/* Animated tags */
+.tag {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+
+  opacity: 0;
+  transform: translateY(6px);
+
+  animation: tagReveal 0.35s ease forwards;
+}
+
+/* Staggered reveal handled inline */
+@keyframes tagReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   HOVER & FOCUS STATES
+================================ */
+
+.card:hover .front,
+.card:hover .back {
+  border-color: var(--color-text-primary);
+}
+
+/* Subtle lift */
+@media (hover: hover) {
+  .card:hover .inner {
+    transform: translateY(-4px) rotateY(var(--flip-rotation, 0deg));
+  }
+
+  .flipped:hover .inner {
+    transform: translateY(-4px) rotateY(180deg);
+  }
+}
+
+/* Keyboard accessibility */
+.card:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 4px;
+}
+
+.moreTag {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-primary);
+  background: transparent;
+  margin-left: 0.4rem;
+  animation: fadeIn 0.3s ease forwards;
+  background: var(--color-bg-primary);
+}
