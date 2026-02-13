@@ -1,0 +1,136 @@
+.section {
+  padding: 120px 0;
+  background-color: var(--bg-primary1); /* Dynamic Background */
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header Styling */
+.sectionHeader {
+  margin-bottom: 4rem;
+  text-align: left;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary); /* Dynamic Text */
+  margin-bottom: 1rem;
+}
+
+.sectionDivider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-teal), var(--brand-indigo));
+  border-radius: 2px;
+}
+
+/* Text Content */
+.aboutText {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-secondary); /* Dynamic Grey */
+  margin-bottom: 2rem;
+}
+
+.aboutText strong {
+  color: var(--text-primary); /* Dynamic Bold */
+  font-weight: 600;
+}
+
+.aboutText em {
+  color: var(--brand-teal);
+  font-style: italic;
+}
+
+/* THE SECRET BOX STYLING */
+.secretInspiration {
+  margin: 4rem 0;
+  padding: 2.5rem;
+  /* Dynamic Glass Box */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-left: 4px solid var(--brand-teal);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.secretHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.secretTitle {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--brand-teal);
+  font-weight: 800;
+}
+
+.glowPulse {
+  width: 8px;
+  height: 8px;
+  background-color: var(--brand-teal);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--brand-teal);
+  animation: pulse 2s infinite;
+}
+
+.secretBody {
+  font-size: 1.2rem;
+  color: var(--text-primary); /* Dynamic Text */
+  font-style: italic;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Actions */
+.aboutActions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 3rem;
+}
+
+.cvButton {
+  padding: 1rem 2.5rem;
+  background: transparent;
+  border: 2px solid var(--brand-teal);
+  color: var(--brand-teal);
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cvButton:hover {
+  background: var(--brand-teal);
+  color: #ffffff; /* Button text always white on hover */
+  box-shadow: 0 0 25px rgba(45, 212, 191, 0.3);
+  transform: translateY(-2px);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 80px 0; }
+  .sectionTitle { font-size: 2rem; }
+  .secretInspiration { padding: 1.5rem; }
+  .secretBody { font-size: 1.05rem; }
+}

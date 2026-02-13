@@ -1,0 +1,327 @@
+/* --------------------------------------------------------- */
+/* 1. SECTION & CONTAINER                                    */
+/* --------------------------------------------------------- */
+.section {
+  padding: 120px 0;
+  background-color: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.sectionHeader {
+  margin-bottom: 4rem;
+  text-align: left;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.sectionDivider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-teal), var(--brand-indigo));
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------- */
+/* 2. THE FLAGSHIP GRID LAYOUT                               */
+/* --------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  /* Desktop Default: 2 Columns */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+/* FLAGSHIP LOGIC (Desktop Only):
+   The first card spans both columns and changes its internal layout
+   to be horizontal (Image Left, Text Right).
+*/
+@media (min-width: 1024px) {
+  .card:first-child {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr; /* Image gets slightly more space */
+    align-items: center;
+    gap: 3rem;
+  }
+
+  /* Adjust Image Height for Flagship */
+  .card:first-child .imageContainer {
+    height: 100%;
+    min-height: 400px; /* Taller visual impact */
+  }
+
+  /* Larger Title for Flagship */
+  .card:first-child .projectTitle {
+    font-size: 2.5rem;
+  }
+
+  /* Show more description text in Flagship */
+  .card:first-child .description {
+    -webkit-line-clamp: 6; /* Show 6 lines instead of 3 */
+  }
+}
+
+/* --------------------------------------------------------- */
+/* 3. CARD STYLING (The "Blueprint" Look)                    */
+/* --------------------------------------------------------- */
+
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Default vertical stack */
+  gap: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--brand-teal);
+  box-shadow: 0 20px 40px -10px rgba(13, 148, 136, 0.15);
+}
+
+/* --------------------------------------------------------- */
+/* 4. IMAGE CONTAINER                                        */
+/* --------------------------------------------------------- */
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 250px; /* Standard height for non-flagship cards */
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.projectImage {
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.card:hover .projectImage {
+  transform: scale(1.05); /* Subtle zoom on hover */
+}
+
+/* --------------------------------------------------------- */
+/* 5. CONTENT STYLING                                        */
+/* --------------------------------------------------------- */
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  z-index: 2; /* Sits above background numbers */
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.projectTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.projectRole {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-teal);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+
+  /* Text Truncation (Ellipsis after 3 lines) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------- */
+/* 6. TECH STACK & ACTIONS                                   */
+/* --------------------------------------------------------- */
+
+.techStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  margin-bottom: 2rem;
+}
+
+.techTag {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  background: rgba(13, 148, 136, 0.08);
+  color: var(--brand-teal);
+  font-weight: 600;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.actionLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.actionLink:hover {
+  color: var(--brand-teal);
+}
+
+/* --------------------------------------------------------- */
+/* 7. DECORATIVE ELEMENTS                                    */
+/* --------------------------------------------------------- */
+
+.projectNumber {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  opacity: 0.03;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.card:hover .projectNumber {
+  opacity: 0.06;
+  color: var(--brand-teal);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: var(--text-secondary);
+  gap: 1rem;
+}
+
+.spinner {
+  color: var(--brand-teal);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------- */
+/* 8. MOBILE OPTIMIZATION                                    */
+/* --------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  /* Stack everything in 1 column */
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reset Flagship behavior for mobile */
+  .card:first-child {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Reset heights/sizes */
+  .card:first-child .imageContainer {
+    height: 250px;
+    min-height: auto;
+  }
+
+  .card:first-child .projectTitle {
+    font-size: 1.75rem;
+  }
+}
+
+/* Add at the bottom */
+
+.viewAllWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.viewAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  border: 1px solid var(--brand-teal);
+  border-radius: 99px;
+  color: var(--brand-teal);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+.viewAllBtn:hover {
+  background: rgba(45, 212, 191, 0.1);
+  box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
+  padding-right: 3.5rem; /* Make room for arrow movement */
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.viewAllBtn:hover .arrowIcon {
+  transform: translateX(5px);
+}

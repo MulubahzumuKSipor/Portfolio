@@ -1,0 +1,629 @@
+/* ============================================
+   CONTACT SECTION - DISCOVERY PROTOCOL
+   ============================================ */
+
+.section {
+  position: relative;
+  min-height: 100vh;
+  padding: 120px 0;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+/* ============================================
+   ANIMATED BACKGROUND SHAPES
+   ============================================ */
+
+.section::before,
+.section::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: float 20s ease-in-out infinite;
+  z-index: 0;
+}
+
+.section::before {
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(135deg, var(--brand-teal), var(--brand-indigo));
+  top: -200px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.section::after {
+  width: 800px;
+  height: 800px;
+  background: linear-gradient(225deg, var(--brand-indigo), var(--brand-teal));
+  bottom: -300px;
+  left: -200px;
+  animation-delay: 3s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(5deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(-5deg);
+  }
+}
+
+/* Additional decorative shapes */
+.section .shape1,
+.section .shape2,
+.section .shape3 {
+  position: absolute;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  opacity: 0.08;
+  z-index: 0;
+}
+
+.shape1 {
+  width: 400px;
+  height: 400px;
+  background: var(--brand-teal);
+  top: 20%;
+  left: 10%;
+  animation: morph 15s ease-in-out infinite;
+}
+
+.shape2 {
+  width: 300px;
+  height: 300px;
+  background: var(--brand-indigo);
+  bottom: 30%;
+  right: 15%;
+  animation: morph 18s ease-in-out infinite reverse;
+}
+
+.shape3 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(135deg, var(--brand-teal), var(--brand-indigo));
+  top: 50%;
+  left: 50%;
+  animation: morph 12s ease-in-out infinite;
+}
+
+@keyframes morph {
+  0%, 100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+    transform: rotate(180deg);
+  }
+}
+
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+/* ============================================
+   INFO COLUMN (LEFT SIDE)
+   ============================================ */
+
+.infoColumn {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.headline {
+  font-size: 3.75rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.highlight {
+  display: block;
+  color: transparent;
+  background: linear-gradient(135deg, var(--brand-teal) 0%, var(--brand-indigo) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: var(--accent-glow);
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.subtext {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 90%;
+  margin: 0;
+}
+
+/* ============================================
+   DETAIL CARDS
+   ============================================ */
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detailCard {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.detailCard:hover {
+  transform: translateX(8px);
+  border-color: var(--brand-teal);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.15);
+}
+
+.iconBox {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(79, 70, 229, 0.1));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-teal);
+  flex-shrink: 0;
+}
+
+.detailCard .label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.detailCard .value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* ============================================
+   FORM COLUMN (RIGHT SIDE)
+   ============================================ */
+
+.formColumn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 3rem;
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Decorative corner accent */
+.formColumn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--brand-teal), transparent);
+  border-radius: 0 24px 0 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* ============================================
+   FORM BADGE
+   ============================================ */
+
+.formBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(79, 70, 229, 0.1));
+  border: 1px solid var(--glass-border);
+  border-radius: 99px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--brand-teal);
+  margin-bottom: 2rem;
+}
+
+.formBadge svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.field label span {
+  color: var(--brand-teal);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--brand-teal);
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+  transform: translateY(-2px);
+}
+
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%230d9488' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+}
+
+/* ============================================
+   SUBMIT BUTTON
+   ============================================ */
+
+.submitBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, var(--brand-teal) 0%, #14b8a6 100%);
+  color: white;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.submitBtn:hover::before {
+  left: 100%;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(13, 148, 136, 0.4);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(-2px) scale(1);
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitBtn svg {
+  transition: transform 0.3s ease;
+}
+
+.submitBtn:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+/* Spinner Animation */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   SUCCESS STATE
+   ============================================ */
+
+.successState {
+  text-align: center;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.successIcon {
+  color: var(--brand-teal);
+  filter: drop-shadow(0 0 20px rgba(13, 148, 136, 0.4));
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.successState h3 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin: 0;
+  font-weight: 800;
+}
+
+.successState p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 400px;
+  font-size: 1.05rem;
+}
+
+.resetBtn {
+  margin-top: 1.5rem;
+  padding: 0.875rem 2.5rem;
+  background: transparent;
+  border: 2px solid var(--glass-border);
+  color: var(--text-primary);
+  border-radius: 99px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resetBtn:hover {
+  background: var(--brand-teal);
+  color: white;
+  border-color: var(--brand-teal);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+}
+
+/* ============================================
+   ERROR BOX
+   ============================================ */
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .errorBox {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.errorBox svg {
+  flex-shrink: 0;
+}
+
+.errorBox span {
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .container {
+    gap: 4rem;
+  }
+
+  .headline {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 0 1.5rem;
+  }
+
+  .infoColumn {
+    position: static;
+  }
+
+  .headline {
+    font-size: 2.5rem;
+  }
+
+  .subtext {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .formColumn {
+    padding: 2rem;
+  }
+
+  .detailCard:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Adjust background shapes for mobile */
+  .section::before {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -150px;
+  }
+
+  .section::after {
+    width: 500px;
+    height: 500px;
+    bottom: -200px;
+    left: -200px;
+  }
+
+  .shape1, .shape2, .shape3 {
+    display: none; /* Hide extra shapes on mobile for performance */
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: 2rem;
+  }
+
+  .formColumn {
+    padding: 1.5rem;
+  }
+
+  .detailCard {
+    padding: 1.25rem;
+  }
+
+  .iconBox {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & POLISH
+   ============================================ */
+
+/* Focus visible for keyboard navigation */
+.submitBtn:focus-visible,
+.resetBtn:focus-visible {
+  outline: 3px solid var(--brand-teal);
+  outline-offset: 4px;
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 3px solid var(--brand-teal);
+  outline-offset: 2px;
+}

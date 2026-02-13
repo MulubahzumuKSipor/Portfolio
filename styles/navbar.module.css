@@ -1,0 +1,226 @@
+/* --------------------------------------------------------- */
+/* 1. CORE LAYOUT & CONTAINER                                */
+/* --------------------------------------------------------- */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+}
+
+/* Glassmorphism state when scrolled */
+.scrolled {
+  /* Dynamic background: White in Light Mode, Slate in Dark Mode */
+  background: var(--nav-scrolled);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1002; /* Ensure logo/toggle stays above mobile menu */
+}
+
+/* --------------------------------------------------------- */
+/* 2. LOGO STYLING                                           */
+/* --------------------------------------------------------- */
+
+.logoBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  padding: 0;
+  z-index: 1002;
+}
+
+/* Wrapper to prevent layout shifts */
+.logoWrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImage {
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logoBtn:hover .logoImage {
+  transform: rotate(-10deg);
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  /* Gradient Text Effect */
+  background: linear-gradient(135deg, var(--brand-teal), var(--brand-indigo));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+/* --------------------------------------------------------- */
+/* 3. DESKTOP NAVIGATION                                     */
+/* --------------------------------------------------------- */
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLink {
+  position: relative;
+  color: var(--text-secondary); /* Adapts to theme */
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navLink:hover {
+  color: var(--brand-teal);
+}
+
+.active {
+  color: var(--text-primary);
+}
+
+/* The "Glow" underline for active state */
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--brand-teal);
+  box-shadow: 0 0 10px var(--brand-teal);
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
+}
+
+/* --------------------------------------------------------- */
+/* 4. MOBILE CONTROLS (THEME & HAMBURGER)                    */
+/* --------------------------------------------------------- */
+
+.mobileActions {
+  display: none; /* Hidden on Desktop */
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1002;
+}
+
+.mobileThemeBtn {
+  background: none;
+  border: none;
+  color: var(--text-primary); /* Adapts to theme */
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.mobileThemeBtn:hover {
+  color: var(--brand-teal);
+  transform: rotate(15deg);
+}
+
+.menuToggle {
+  background: none;
+  border: none;
+  color: var(--text-primary); /* Adapts to theme */
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.menuToggle:hover {
+  color: var(--brand-teal);
+}
+
+/* --------------------------------------------------------- */
+/* 5. MOBILE MENU OVERLAY                                    */
+/* --------------------------------------------------------- */
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  /* Dynamic Background: White/98% in Light, Slate/98% in Dark */
+  background: var(--mobile-menu-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+
+  z-index: 999;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.mobileMenuLink {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-secondary); /* Adapts to theme */
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+}
+
+.mobileMenuLink:hover,
+.mobileMenuLink.active {
+  color: var(--brand-teal);
+  transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------------- */
+/* 6. RESPONSIVE BREAKPOINTS                                 */
+/* --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .mobileActions { display: flex; }
+  .container { padding: 1rem 1.25rem; }
+}

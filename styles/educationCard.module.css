@@ -1,0 +1,161 @@
+/* components/Education/Education.module.css */
+
+.section {
+  padding: 100px 0;
+  background-color: var(--bg-primary); /* Keeps flow consistent */
+  position: relative;
+}
+
+.container {
+  max-width: 1000px; /* Slightly narrower for focus */
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.sectionHeader {
+  margin-bottom: 4rem;
+  text-align: left;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.sectionDivider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-teal), var(--brand-indigo));
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Credential Card */
+.card {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border-color: var(--brand-teal);
+}
+
+/* Special Styling for the Degree (Top Item) */
+.card.Degree {
+  border-left: 4px solid var(--brand-teal);
+  background: linear-gradient(
+    145deg,
+    var(--glass-bg) 0%,
+    rgba(13, 148, 136, 0.05) 100%
+  );
+}
+
+/* Year Badge */
+.yearBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brand-teal);
+  background: rgba(13, 148, 136, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+}
+
+/* Content Layout */
+.content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem; /* Space for year badge */
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 48px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.Degree .iconWrapper {
+  color: var(--brand-teal);
+  border-color: var(--brand-teal);
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.institution {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Decorative Glow */
+.glow {
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 100px;
+  height: 100px;
+  background: var(--brand-teal);
+  filter: blur(60px);
+  opacity: 0.1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.card:hover .glow {
+  opacity: 0.2;
+}
+
+/* Loading */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+.spinner { color: var(--brand-teal); animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}
