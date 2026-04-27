@@ -16,20 +16,11 @@ const About: React.FC = () => {
         <div className={styles.aboutContent}>
           <div className={styles.textContent}>
             <p className={styles.aboutText}>
-              I believe the most dangerous thing in technology isn&apos;t a bug—it&apos;s a lack of intention. 
-              As an <strong>IT Program Manager and Full-Stack Developer</strong>, I’ve learned that 
-              building a platform is 90% strategy and 10% syntax. Whether I’m orchestrating 
-              nationwide digital literacy programs like &quot;Born Before Computer&quot; or shipping 
-              production-ready MERN applications, my focus is on <strong>calm execution and steady 
-              emotional positioning</strong>.
+              As a <strong>Software Developer</strong> with over 4 years of experience building production web applications, my focus is on delivering secure, scalable solutions. I specialize in building everything from government-grade platforms to scalable e-commerce solutions. I have a strong foundation in REST APIs, database design, authentication systems, and deployment workflows.
             </p>
             
             <p className={styles.aboutText}>
-              I don&apos;t just build interfaces; I design connections. My approach is rooted in 
-              <em> Kaizen</em>—the relentless, daily improvement of systems, APIs, and myself. 
-              From launching e-commerce marketplaces to optimizing real estate platforms like 
-              <strong> MSI HOMES</strong>, I bridge the gap between business logic and human 
-              experience without ever losing my technical edge.
+              I build end-to-end web applications using <strong>React, Next.js, TypeScript, Node.js, and PostgreSQL</strong>. Whether I am developing platforms like EventHub or an Inventory Management System, I enhance user experience through UI/UX design, performance optimization, and mobile-first approaches. Looking forward, I am eager to transition my cloud infrastructure expertise to AWS while contributing to sovereign AI and national digital transformation initiatives.
             </p>
           </div>
 
@@ -40,10 +31,7 @@ const About: React.FC = () => {
               <div className={styles.glowPulse} aria-hidden="true" />
             </div>
             <p className={styles.secretBody}>
-              &quot;I’m often the calmest person in the room because I’ve already observed 
-              the reactions before the code is even deployed. I don’t force solutions; 
-              I lead them. I’m building for more than just success—I’m building for 
-              <strong> presence, influence, and respect</strong> in the digital landscape.&quot;
+              &quot;I don&apos;t just write code; I architect systems. By developing responsive, accessible, and maintainable applications with secure routing and modular architecture, I manage projects independently and collaborate seamlessly to meet precise requirements. My goal is always to improve operational efficiency and build platforms that truly scale.&quot;
             </p>
           </div>
 
